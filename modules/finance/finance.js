@@ -1,0 +1,1462 @@
+/* ==========================================
+   BAIX NEON GRID OS
+   FINANCE CORE v1
+========================================== */
+
+
+const STORAGE_KEY =
+    "baix-finance-core-v1";
+
+
+/* ==========================================
+   DEFAULT DATABASE
+========================================== */
+
+const defaultDatabase = {
+
+    accounts: [],
+
+    transactions: [],
+
+    budgets: [],
+
+    debts: []
+
+};
+
+
+/* ==========================================
+   LOAD DATABASE
+========================================== */
+
+let db =
+    JSON.parse(
+        localStorage.getItem(
+            STORAGE_KEY
+        )
+    ) || defaultDatabase;
+
+
+/* ==========================================
+   SAVE
+========================================== */
+
+function saveDatabase() {
+
+    localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(db)
+    );
+
+}
+
+
+/* ==========================================
+   HELPERS
+========================================== */
+
+function money(value) {
+
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }
+    ).format(value || 0);
+
+}
+
+
+function today() {
+
+    const date =
+        new Date();
+
+    return date
+        .toISOString()
+        .split("T")[0];
+
+}
+
+
+function selectedMonth() {
+
+    return document
+        .getElementById(
+            "monthPicker"
+        )
+        .value;
+
+}
+
+
+function transactionMonth(
+    transaction
+) {
+
+    return transaction.date
+        .slice(0, 7);
+
+}
+
+
+/* ==========================================
+   INITIAL MONTH
+========================================== */
+
+function initializeMonth() {
+
+    const picker =
+        document.getElementById(
+            "monthPicker"
+        );
+
+
+    const now =
+        new Date();
+
+
+    picker.value =
+        now.getFullYear() +
+        "-" +
+        String(
+            now.getMonth() + 1
+        ).padStart(2, "0");
+
+
+    picker.addEventListener(
+        "change",
+        renderAll
+    );
+
+}
+
+
+initializeMonth();
+
+
+/* ==========================================
+   ACCOUNT SELECT
+========================================== */
+
+function renderAccountSelect() {
+
+    const select =
+        document.getElementById(
+            "transactionAccount"
+        );
+
+
+    select.innerHTML = "";
+
+
+    if (
+        db.accounts.length === 0
+    ) {
+
+        select.innerHTML =
+            `<option value="">
+                Belum ada rekening
+             </option>`;
+
+        return;
+
+    }
+
+
+    db.accounts.forEach(
+        account => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+
+            option.value =
+                account.id;
+
+
+            option.textContent =
+                account.name;
+
+
+            select.appendChild(
+                option
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   CALCULATE ACCOUNT BALANCE
+========================================== */
+
+function calculateAccountBalance(
+    account
+) {
+
+    let balance =
+        Number(
+            account.initialBalance || 0
+        );
+
+
+    db.transactions.forEach(
+        transaction => {
+
+            if (
+                transaction.accountId
+                !== account.id
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                transaction.type
+                === "income"
+            ) {
+
+                balance +=
+                    transaction.amount;
+
+            }
+
+
+            if (
+                transaction.type
+                === "expense"
+            ) {
+
+                balance -=
+                    transaction.amount;
+
+            }
+
+        }
+    );
+
+
+    return balance;
+
+}
+
+
+/* ==========================================
+   TOTAL BALANCE
+========================================== */
+
+function calculateTotalBalance() {
+
+    return db.accounts.reduce(
+        (
+            total,
+            account
+        ) => {
+
+            return total +
+                calculateAccountBalance(
+                    account
+                );
+
+        },
+        0
+    );
+
+}
+
+
+/* ==========================================
+   MONTHLY TOTALS
+========================================== */
+
+function calculateMonthlyTotals() {
+
+    const month =
+        selectedMonth();
+
+
+    let income = 0;
+
+    let expense = 0;
+
+
+    db.transactions.forEach(
+        transaction => {
+
+            if (
+                transactionMonth(
+                    transaction
+                ) !== month
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                transaction.type
+                === "income"
+            ) {
+
+                income +=
+                    transaction.amount;
+
+            }
+
+
+            if (
+                transaction.type
+                === "expense"
+            ) {
+
+                expense +=
+                    transaction.amount;
+
+            }
+
+        }
+    );
+
+
+    return {
+
+        income,
+
+        expense,
+
+        saving:
+            calculateMonthlySaving()
+
+    };
+
+}
+
+
+/* ==========================================
+   SAVING
+========================================== */
+
+function calculateMonthlySaving() {
+
+    /*
+       Untuk versi awal,
+       saving = income - expense.
+
+       Nanti bisa dibuat
+       rekening tabungan khusus.
+    */
+
+
+    const month =
+        selectedMonth();
+
+
+    let income = 0;
+
+    let expense = 0;
+
+
+    db.transactions.forEach(
+        transaction => {
+
+            if (
+                transactionMonth(
+                    transaction
+                ) !== month
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                transaction.type
+                === "income"
+            ) {
+
+                income +=
+                    transaction.amount;
+
+            }
+
+
+            if (
+                transaction.type
+                === "expense"
+            ) {
+
+                expense +=
+                    transaction.amount;
+
+            }
+
+        }
+    );
+
+
+    return Math.max(
+        income - expense,
+        0
+    );
+
+}
+
+
+/* ==========================================
+   RENDER SUMMARY
+========================================== */
+
+function renderSummary() {
+
+    const totals =
+        calculateMonthlyTotals();
+
+
+    document.getElementById(
+        "totalBalance"
+    ).textContent =
+        money(
+            calculateTotalBalance()
+        );
+
+
+    document.getElementById(
+        "monthIncome"
+    ).textContent =
+        money(
+            totals.income
+        );
+
+
+    document.getElementById(
+        "monthExpense"
+    ).textContent =
+        money(
+            totals.expense
+        );
+
+
+    document.getElementById(
+        "monthSaving"
+    ).textContent =
+        money(
+            totals.saving
+        );
+
+}
+
+
+/* ==========================================
+   RENDER ACCOUNTS
+========================================== */
+
+function renderAccounts() {
+
+    const container =
+        document.getElementById(
+            "accounts"
+        );
+
+
+    container.innerHTML = "";
+
+
+    if (
+        db.accounts.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                Belum ada sumber dana.<br>
+
+                Tambahkan rekening,
+                cash atau e-wallet.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    db.accounts.forEach(
+        account => {
+
+            const balance =
+                calculateAccountBalance(
+                    account
+                );
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "account-card";
+
+
+            card.innerHTML = `
+
+                <button
+                    class="account-delete"
+                    data-id="${account.id}"
+                >
+                    ×
+                </button>
+
+                <small>
+                    ${account.type.toUpperCase()}
+                </small>
+
+                <strong>
+                    ${money(balance)}
+                </strong>
+
+                <span>
+                    ${account.name}
+                </span>
+
+            `;
+
+
+            card
+                .querySelector(
+                    ".account-delete"
+                )
+                .onclick = () => {
+
+                    deleteAccount(
+                        account.id
+                    );
+
+                };
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   DELETE ACCOUNT
+========================================== */
+
+function deleteAccount(id) {
+
+    const used =
+        db.transactions.some(
+            transaction =>
+                transaction.accountId
+                === id
+        );
+
+
+    if (used) {
+
+        alert(
+            "Rekening tidak bisa dihapus karena sudah memiliki transaksi."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        !confirm(
+            "Hapus rekening ini?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    db.accounts =
+        db.accounts.filter(
+            account =>
+                account.id !== id
+        );
+
+
+    saveDatabase();
+
+    renderAll();
+
+}
+
+
+/* ==========================================
+   OPEN TRANSACTION
+========================================== */
+
+function openTransactionModal(
+    type
+) {
+
+    const modal =
+        document.getElementById(
+            "modal"
+        );
+
+
+    document.getElementById(
+        "transactionType"
+    ).value = type;
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        type === "income"
+            ? "＋ PEMASUKAN"
+            : "− PENGELUARAN";
+
+
+    document.getElementById(
+        "transactionDate"
+    ).value =
+        today();
+
+
+    document.getElementById(
+        "transactionAmount"
+    ).value = "";
+
+
+    document.getElementById(
+        "transactionNote"
+    ).value = "";
+
+
+    renderAccountSelect();
+
+
+    modal.classList.remove(
+        "hidden"
+    );
+
+}
+
+
+/* ==========================================
+   CLOSE TRANSACTION
+========================================== */
+
+function closeTransactionModal() {
+
+    document
+        .getElementById(
+            "modal"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+}
+
+
+/* ==========================================
+   BUTTONS
+========================================== */
+
+document.getElementById(
+    "openIncome"
+).onclick = () => {
+
+    openTransactionModal(
+        "income"
+    );
+
+};
+
+
+document.getElementById(
+    "openExpense"
+).onclick = () => {
+
+    openTransactionModal(
+        "expense"
+    );
+
+};
+
+
+document.getElementById(
+    "closeModal"
+).onclick =
+    closeTransactionModal;
+
+
+/* ==========================================
+   SUBMIT TRANSACTION
+========================================== */
+
+document.getElementById(
+    "transactionForm"
+).onsubmit =
+    event => {
+
+        event.preventDefault();
+
+
+        const type =
+            document.getElementById(
+                "transactionType"
+            ).value;
+
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "transactionAmount"
+                ).value
+            );
+
+
+        const accountId =
+            document.getElementById(
+                "transactionAccount"
+            ).value;
+
+
+        if (
+            !accountId
+        ) {
+
+            alert(
+                "Tambahkan rekening terlebih dahulu."
+            );
+
+            return;
+
+        }
+
+
+        const transaction = {
+
+            id:
+                crypto.randomUUID(),
+
+            type,
+
+            date:
+                document.getElementById(
+                    "transactionDate"
+                ).value,
+
+            amount,
+
+            category:
+                document.getElementById(
+                    "transactionCategory"
+                ).value,
+
+            accountId,
+
+            note:
+                document.getElementById(
+                    "transactionNote"
+                ).value
+
+        };
+
+
+        db.transactions.push(
+            transaction
+        );
+
+
+        saveDatabase();
+
+        closeTransactionModal();
+
+        renderAll();
+
+        showToast(
+            "TRANSAKSI TERSIMPAN"
+        );
+
+    };
+
+
+/* ==========================================
+   ACCOUNT MODAL
+========================================== */
+
+document.getElementById(
+    "openAccount"
+).onclick = () => {
+
+    document
+        .getElementById(
+            "accountModal"
+        )
+        .classList.remove(
+            "hidden"
+        );
+
+};
+
+
+document.getElementById(
+    "closeAccountModal"
+).onclick = () => {
+
+    document
+        .getElementById(
+            "accountModal"
+        )
+        .classList.add(
+            "hidden"
+        );
+
+};
+
+
+/* ==========================================
+   ADD ACCOUNT
+========================================== */
+
+document.getElementById(
+    "accountForm"
+).onsubmit =
+    event => {
+
+        event.preventDefault();
+
+
+        const account = {
+
+            id:
+                crypto.randomUUID(),
+
+            name:
+                document.getElementById(
+                    "accountName"
+                ).value,
+
+            type:
+                document.getElementById(
+                    "accountType"
+                ).value,
+
+            initialBalance:
+                Number(
+                    document.getElementById(
+                        "accountBalance"
+                    ).value
+                )
+
+        };
+
+
+        db.accounts.push(
+            account
+        );
+
+
+        saveDatabase();
+
+
+        document
+            .getElementById(
+                "accountForm"
+            )
+            .reset();
+
+
+        document
+            .getElementById(
+                "accountModal"
+            )
+            .classList.add(
+                "hidden"
+            );
+
+
+        renderAll();
+
+
+        showToast(
+            "REKENING DITAMBAHKAN"
+        );
+
+    };
+
+
+/* ==========================================
+   RENDER TRANSACTIONS
+========================================== */
+
+function renderTransactions() {
+
+    const container =
+        document.getElementById(
+            "transactionList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const month =
+        selectedMonth();
+
+
+    const transactions =
+        db.transactions
+            .filter(
+                transaction =>
+                    transactionMonth(
+                        transaction
+                    ) === month
+            )
+            .sort(
+                (a,b) =>
+                    b.date.localeCompare(
+                        a.date
+                    )
+            );
+
+
+    if (
+        transactions.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                Belum ada transaksi
+                pada bulan ini.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    transactions.forEach(
+        transaction => {
+
+            const account =
+                db.accounts.find(
+                    item =>
+                        item.id ===
+                        transaction.accountId
+                );
+
+
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+
+            element.className =
+                "transaction " +
+                (
+                    transaction.type
+                    === "income"
+                        ? "income-tx"
+                        : "expense-tx"
+                );
+
+
+            const sign =
+                transaction.type
+                === "income"
+                    ? "+"
+                    : "-";
+
+
+            element.innerHTML = `
+
+                <div class="transaction-date">
+
+                    ${transaction.date
+                        .split("-")
+                        .reverse()
+                        .slice(0,2)
+                        .join("/")}
+
+                </div>
+
+
+                <div class="transaction-info">
+
+                    <strong>
+                        ${transaction.category}
+                    </strong>
+
+                    <small>
+                        ${account
+                            ? account.name
+                            : "Unknown"}
+                        ${transaction.note
+                            ? " • " +
+                              transaction.note
+                            : ""}
+                    </small>
+
+                </div>
+
+
+                <div class="transaction-amount">
+
+                    ${sign}
+                    ${money(
+                        transaction.amount
+                    )}
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                element
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   BUDGET
+========================================== */
+
+function renderBudgets() {
+
+    const container =
+        document.getElementById(
+            "budgetList"
+        );
+
+
+    container.innerHTML = "";
+
+
+    const month =
+        selectedMonth();
+
+
+    const budgets =
+        db.budgets.filter(
+            budget =>
+                budget.month === month
+        );
+
+
+    if (
+        budgets.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                Belum ada budget.
+                Buat budget agar sistem
+                bisa memperingatkan
+                pengeluaran berlebihan.
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    budgets.forEach(
+        budget => {
+
+            const spent =
+                db.transactions
+                    .filter(
+                        transaction =>
+                            transaction.type
+                            === "expense" &&
+                            transaction.category
+                            === budget.category &&
+                            transactionMonth(
+                                transaction
+                            ) === month
+                    )
+                    .reduce(
+                        (
+                            sum,
+                            transaction
+                        ) =>
+                            sum +
+                            transaction.amount,
+                        0
+                    );
+
+
+            const percentage =
+                Math.min(
+                    (
+                        spent /
+                        budget.limit
+                    ) * 100,
+                    100
+                );
+
+
+            const element =
+                document.createElement(
+                    "div"
+                );
+
+
+            element.className =
+                "budget-card";
+
+
+            element.innerHTML = `
+
+                <div class="budget-top">
+
+                    <strong>
+                        ${budget.category}
+                    </strong>
+
+                    <span>
+                        ${money(spent)}
+                        /
+                        ${money(
+                            budget.limit
+                        )}
+                    </span>
+
+                </div>
+
+                <div class="budget-bar">
+
+                    <i
+                        style="width:${percentage}%"
+                    ></i>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                element
+            );
+
+        }
+    );
+
+}
+
+
+/* ==========================================
+   ADD BUDGET
+========================================== */
+
+document.getElementById(
+    "addBudget"
+).onclick = () => {
+
+    const category =
+        prompt(
+            "Kategori budget?\nContoh: Makanan"
+        );
+
+
+    if (!category) return;
+
+
+    const limit =
+        Number(
+            prompt(
+                "Batas budget bulan ini?"
+            )
+        );
+
+
+    if (
+        !limit ||
+        limit <= 0
+    ) {
+
+        return;
+
+    }
+
+
+    db.budgets.push({
+
+        id:
+            crypto.randomUUID(),
+
+        month:
+            selectedMonth(),
+
+        category,
+
+        limit
+
+    });
+
+
+    saveDatabase();
+
+    renderBudgets();
+
+    showToast(
+        "BUDGET DITAMBAHKAN"
+    );
+
+};
+
+
+/* ==========================================
+   EXPORT CSV
+========================================== */
+
+document.getElementById(
+    "exportCsv"
+).onclick = () => {
+
+    const month =
+        selectedMonth();
+
+
+    const transactions =
+        db.transactions.filter(
+            transaction =>
+                transactionMonth(
+                    transaction
+                ) === month
+        );
+
+
+    let csv =
+        "Tanggal,Jenis,Kategori,Rekening,Jumlah,Catatan\n";
+
+
+    transactions.forEach(
+        transaction => {
+
+            const account =
+                db.accounts.find(
+                    item =>
+                        item.id ===
+                        transaction.accountId
+                );
+
+
+            csv += [
+
+                transaction.date,
+
+                transaction.type,
+
+                transaction.category,
+
+                account
+                    ? account.name
+                    : "",
+
+                transaction.amount,
+
+                (
+                    transaction.note
+                    || ""
+                ).replace(
+                    /,/g,
+                    " "
+                )
+
+            ].join(",") + "\n";
+
+        }
+    );
+
+
+    const blob =
+        new Blob(
+            [csv],
+            {
+                type:
+                    "text/csv;charset=utf-8;"
+            }
+        );
+
+
+    const url =
+        URL.createObjectURL(
+            blob
+        );
+
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+
+    link.href =
+        url;
+
+
+    link.download =
+        `BAIX-FINANCE-${month}.csv`;
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+        url
+    );
+
+
+    showToast(
+        "STATEMENT DIEXPORT"
+    );
+
+};
+
+
+/* ==========================================
+   RESET
+========================================== */
+
+document.getElementById(
+    "clearTransactions"
+).onclick = () => {
+
+    const confirmation =
+        prompt(
+            "Ketik RESET untuk menghapus SEMUA transaksi, rekening dan budget."
+        );
+
+
+    if (
+        confirmation !== "RESET"
+    ) {
+
+        return;
+
+    }
+
+
+    db =
+        JSON.parse(
+            JSON.stringify(
+                defaultDatabase
+            )
+        );
+
+
+    saveDatabase();
+
+    renderAll();
+
+    showToast(
+        "DATABASE FINANCE DIRESET"
+    );
+
+};
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+function showToast(
+    message
+) {
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        window.toastTimer
+    );
+
+
+    window.toastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            1800
+        );
+
+}
+
+
+/* ==========================================
+   RENDER ALL
+========================================== */
+
+function renderAll() {
+
+    renderSummary();
+
+    renderAccounts();
+
+    renderAccountSelect();
+
+    renderTransactions();
+
+    renderBudgets();
+
+}
+
+
+renderAll();
