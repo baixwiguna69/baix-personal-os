@@ -303,34 +303,70 @@ function calculateAccountBalance(
     db.transactions.forEach(
         transaction => {
 
-            if (
-                transaction.accountId
-                !== account.id
-            ) {
-
-                return;
-
-            }
-
+            /* ==========================
+               INCOME
+            ========================== */
 
             if (
-                transaction.type
-                === "income"
+                transaction.type === "income" &&
+                transaction.accountId === account.id
             ) {
 
                 balance +=
-                    transaction.amount;
+                    Number(
+                        transaction.amount
+                    );
 
             }
 
 
+            /* ==========================
+               EXPENSE
+            ========================== */
+
             if (
-                transaction.type
-                === "expense"
+                transaction.type === "expense" &&
+                transaction.accountId === account.id
             ) {
 
                 balance -=
-                    transaction.amount;
+                    Number(
+                        transaction.amount
+                    );
+
+            }
+
+
+            /* ==========================
+               TRANSFER OUT
+            ========================== */
+
+            if (
+                transaction.type === "transfer" &&
+                transaction.fromAccountId === account.id
+            ) {
+
+                balance -=
+                    Number(
+                        transaction.amount
+                    );
+
+            }
+
+
+            /* ==========================
+               TRANSFER IN
+            ========================== */
+
+            if (
+                transaction.type === "transfer" &&
+                transaction.toAccountId === account.id
+            ) {
+
+                balance +=
+                    Number(
+                        transaction.amount
+                    );
 
             }
 
