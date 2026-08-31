@@ -1,1 +1,650 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>FINANCE CORE</title><link rel="stylesheet" href="../../style.css"></head><body><div class="app"><header><div class="brand"><span class="bolt">⚡</span><div><strong>BAIX</strong> FINANCE CORE<small>MONEY CONTROL SYSTEM</small></div></div><a class="system" href="../../index.html">← COMMAND CENTER</a></header><section class="hero panel"><div class="eyebrow">MODULE // FINANCE</div><h1>FINANCE<br><em>CORE.</em></h1><p>Modul ini berdiri sendiri dan akan dikembangkan bertahap tanpa mengacaukan Dashboard utama.</p><div class="powerline"></div></section></div></body></html>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#030711"
+    >
+
+    <title>Finance Core • BAIX</title>
+
+    <link
+        rel="stylesheet"
+        href="../../style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="finance.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="grid-background"></div>
+<div class="scanlines"></div>
+
+
+<main class="finance-app">
+
+
+    <!-- HEADER -->
+
+    <header class="finance-header">
+
+        <a
+            href="../../index.html"
+            class="back-button"
+        >
+            ← COMMAND CENTER
+        </a>
+
+
+        <div class="finance-title">
+
+            <div class="finance-code">
+                CORE 01 // FINANCE
+            </div>
+
+            <h1>
+                MONEY
+                <span>CONTROL.</span>
+            </h1>
+
+        </div>
+
+
+        <div class="finance-month">
+
+            <label for="monthPicker">
+                PERIOD
+            </label>
+
+            <input
+                type="month"
+                id="monthPicker"
+            >
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= SUMMARY ================= -->
+
+    <section class="money-summary">
+
+
+        <div class="money-card main-balance">
+
+            <small>
+                TOTAL BALANCE
+            </small>
+
+            <strong id="totalBalance">
+                Rp0
+            </strong>
+
+            <span>
+                Semua sumber dana
+            </span>
+
+        </div>
+
+
+        <div class="money-card income">
+
+            <small>
+                INCOME
+            </small>
+
+            <strong id="monthIncome">
+                Rp0
+            </strong>
+
+            <span>
+                Bulan terpilih
+            </span>
+
+        </div>
+
+
+        <div class="money-card expense">
+
+            <small>
+                EXPENSE
+            </small>
+
+            <strong id="monthExpense">
+                Rp0
+            </strong>
+
+            <span>
+                Bulan terpilih
+            </span>
+
+        </div>
+
+
+        <div class="money-card saving">
+
+            <small>
+                SAVING
+            </small>
+
+            <strong id="monthSaving">
+                Rp0
+            </strong>
+
+            <span>
+                Transfer ke tabungan
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ================= QUICK ACTION ================= -->
+
+    <section class="quick-actions">
+
+        <button
+            class="action income-action"
+            id="openIncome"
+        >
+            <b>＋</b>
+            PEMASUKAN
+        </button>
+
+
+        <button
+            class="action expense-action"
+            id="openExpense"
+        >
+            <b>−</b>
+            PENGELUARAN
+        </button>
+
+
+        <button
+            class="action transfer-action"
+            id="openTransfer"
+        >
+            <b>↔</b>
+            TRANSFER
+        </button>
+
+
+        <button
+            class="action account-action"
+            id="openAccount"
+        >
+            <b>＋</b>
+            REKENING
+        </button>
+
+    </section>
+
+
+
+    <!-- ================= ACCOUNTS ================= -->
+
+    <section class="finance-section">
+
+        <div class="section-title">
+
+            <div>
+
+                <small>
+                    MONEY SOURCES
+                </small>
+
+                <h2>
+                    REKENING & SUMBER DANA
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="accounts"
+            class="accounts-grid"
+        ></div>
+
+    </section>
+
+
+
+    <!-- ================= BUDGET ================= -->
+
+    <section class="finance-section">
+
+        <div class="section-title">
+
+            <div>
+
+                <small>
+                    MONTHLY CONTROL
+                </small>
+
+                <h2>
+                    BUDGET
+                </h2>
+
+            </div>
+
+            <button
+                id="addBudget"
+                class="small-button"
+            >
+                + BUDGET
+            </button>
+
+        </div>
+
+
+        <div
+            id="budgetList"
+            class="budget-list"
+        ></div>
+
+    </section>
+
+
+
+    <!-- ================= OBLIGATION ================= -->
+
+    <section class="finance-section">
+
+        <div class="section-title">
+
+            <div>
+
+                <small>
+                    UPCOMING LIABILITY
+                </small>
+
+                <h2>
+                    KEWAJIBAN
+                </h2>
+
+            </div>
+
+            <a
+                href="../debt/index.html"
+                class="small-button"
+            >
+                OPEN DEBT CORE ↗
+            </a>
+
+        </div>
+
+
+        <div class="obligation-grid">
+
+            <div class="obligation-card">
+
+                <small>
+                    HUTANG AKTIF
+                </small>
+
+                <strong id="activeDebt">
+                    Rp0
+                </strong>
+
+            </div>
+
+
+            <div class="obligation-card">
+
+                <small>
+                    CICILAN BULAN INI
+                </small>
+
+                <strong id="monthlyDebt">
+                    Rp0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= TRANSACTIONS ================= -->
+
+    <section class="finance-section">
+
+        <div class="section-title">
+
+            <div>
+
+                <small>
+                    LEDGER
+                </small>
+
+                <h2>
+                    TRANSAKSI
+                </h2>
+
+            </div>
+
+
+            <div class="ledger-tools">
+
+                <button
+                    id="exportCsv"
+                    class="small-button"
+                >
+                    ↓ STATEMENT CSV
+                </button>
+
+                <button
+                    id="clearTransactions"
+                    class="danger-button"
+                >
+                    RESET DATA
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="transactionList"
+            class="transaction-list"
+        ></div>
+
+    </section>
+
+
+
+    <!-- ================= MODAL ================= -->
+
+    <div
+        id="modal"
+        class="modal hidden"
+    >
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <h2 id="modalTitle">
+                    TRANSACTION
+                </h2>
+
+                <button
+                    id="closeModal"
+                    class="close-button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="transactionForm">
+
+                <input
+                    type="hidden"
+                    id="transactionType"
+                >
+
+
+                <label>
+                    Tanggal
+
+                    <input
+                        type="date"
+                        id="transactionDate"
+                        required
+                    >
+
+                </label>
+
+
+                <label>
+                    Jumlah
+
+                    <input
+                        type="number"
+                        id="transactionAmount"
+                        min="1"
+                        required
+                        placeholder="Contoh: 50000"
+                    >
+
+                </label>
+
+
+                <label>
+                    Kategori
+
+                    <select
+                        id="transactionCategory"
+                        required
+                    >
+
+                        <option value="">
+                            Pilih kategori
+                        </option>
+
+                        <option>
+                            Gaji
+                        </option>
+
+                        <option>
+                            Makanan
+                        </option>
+
+                        <option>
+                            Rokok
+                        </option>
+
+                        <option>
+                            Kontrakan
+                        </option>
+
+                        <option>
+                            Listrik
+                        </option>
+
+                        <option>
+                            Bensin
+                        </option>
+
+                        <option>
+                            Orang Tua
+                        </option>
+
+                        <option>
+                            Belanja
+                        </option>
+
+                        <option>
+                            Hiburan
+                        </option>
+
+                        <option>
+                            Lainnya
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+                    Sumber Dana
+
+                    <select
+                        id="transactionAccount"
+                        required
+                    ></select>
+
+                </label>
+
+
+                <label>
+                    Catatan
+
+                    <textarea
+                        id="transactionNote"
+                        placeholder="Catatan..."
+                    ></textarea>
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    SIMPAN TRANSAKSI
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ACCOUNT MODAL -->
+
+    <div
+        id="accountModal"
+        class="modal hidden"
+    >
+
+        <div class="modal-box">
+
+            <div class="modal-header">
+
+                <h2>
+                    TAMBAH REKENING
+                </h2>
+
+                <button
+                    id="closeAccountModal"
+                    class="close-button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form id="accountForm">
+
+                <label>
+                    Nama
+
+                    <input
+                        id="accountName"
+                        required
+                        placeholder="Contoh: BRI"
+                    >
+
+                </label>
+
+
+                <label>
+                    Jenis
+
+                    <select id="accountType">
+
+                        <option>
+                            Bank
+                        </option>
+
+                        <option>
+                            Cash
+                        </option>
+
+                        <option>
+                            E-Wallet
+                        </option>
+
+                        <option>
+                            Tabungan
+                        </option>
+
+                    </select>
+
+                </label>
+
+
+                <label>
+                    Saldo Awal
+
+                    <input
+                        type="number"
+                        id="accountBalance"
+                        min="0"
+                        value="0"
+                    >
+
+                </label>
+
+
+                <button
+                    type="submit"
+                    class="submit-button"
+                >
+                    TAMBAH REKENING
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <footer>
+
+        <span>
+            BAIX NEON GRID OS
+        </span>
+
+        <span>
+            FINANCE CORE • LOCAL-FIRST
+        </span>
+
+    </footer>
+
+
+</main>
+
+
+<div id="toast"></div>
+
+
+<script src="finance.js"></script>
+
+</body>
+</html>
