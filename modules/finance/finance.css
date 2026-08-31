@@ -1,0 +1,1141 @@
+.finance-app {
+
+    width:
+        min(900px, calc(100% - 20px));
+
+    margin:
+        auto;
+
+    padding:
+        18px 0 50px;
+
+}
+
+
+.finance-header {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 2fr 1fr;
+
+    align-items:
+        center;
+
+    gap:
+        15px;
+
+    margin-bottom:
+        30px;
+
+}
+
+
+.back-button {
+
+    color:
+        var(--cyan);
+
+    text-decoration:
+        none;
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        8px;
+
+}
+
+
+.finance-code {
+
+    font-family:
+        Orbitron;
+
+    color:
+        var(--muted);
+
+    font-size:
+        8px;
+
+    letter-spacing:
+        2px;
+
+}
+
+
+.finance-title h1 {
+
+    margin:
+        8px 0 0;
+
+    font-size:
+        clamp(30px, 6vw, 48px);
+
+}
+
+
+.finance-title h1 span {
+
+    color:
+        var(--green);
+
+}
+
+
+.finance-month {
+
+    text-align:
+        right;
+
+}
+
+
+.finance-month label {
+
+    display:
+        block;
+
+    color:
+        var(--muted);
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        7px;
+
+    margin-bottom:
+        5px;
+
+}
+
+
+.finance-month input {
+
+    background:
+        #06111c;
+
+    border:
+        1px solid
+        var(--line);
+
+    color:
+        var(--cyan);
+
+    padding:
+        8px;
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        9px;
+
+}
+
+
+/* SUMMARY */
+
+.money-summary {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1.4fr 1fr 1fr 1fr;
+
+    gap:
+        8px;
+
+}
+
+
+.money-card {
+
+    background:
+        #071321;
+
+    border:
+        1px solid
+        var(--line);
+
+    padding:
+        17px;
+
+}
+
+
+.money-card small {
+
+    display:
+        block;
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        7px;
+
+    color:
+        var(--muted);
+
+}
+
+
+.money-card strong {
+
+    display:
+        block;
+
+    margin:
+        10px 0 5px;
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        18px;
+
+}
+
+
+.money-card span {
+
+    color:
+        var(--muted);
+
+    font-size:
+        9px;
+
+}
+
+
+.main-balance strong {
+
+    color:
+        var(--cyan);
+
+}
+
+
+.income strong {
+
+    color:
+        var(--green);
+
+}
+
+
+.expense strong {
+
+    color:
+        #ff5b72;
+
+}
+
+
+.saving strong {
+
+    color:
+        var(--yellow);
+
+}
+
+
+/* ACTION */
+
+.quick-actions {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap:
+        8px;
+
+    margin:
+        12px 0 25px;
+
+}
+
+
+.action {
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        #06111c;
+
+    color:
+        var(--text);
+
+    padding:
+        14px 5px;
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        8px;
+
+    cursor:
+        pointer;
+
+}
+
+
+.action b {
+
+    display:
+        block;
+
+    font-size:
+        20px;
+
+    margin-bottom:
+        5px;
+
+}
+
+
+.income-action:hover {
+
+    border-color:
+        var(--green);
+
+    color:
+        var(--green);
+
+}
+
+
+.expense-action:hover {
+
+    border-color:
+        #ff5b72;
+
+    color:
+        #ff5b72;
+
+}
+
+
+.transfer-action:hover {
+
+    border-color:
+        var(--cyan);
+
+    color:
+        var(--cyan);
+
+}
+
+
+.account-action:hover {
+
+    border-color:
+        var(--yellow);
+
+    color:
+        var(--yellow);
+
+}
+
+
+/* SECTIONS */
+
+.finance-section {
+
+    margin:
+        28px 0;
+
+}
+
+
+.section-title {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    margin-bottom:
+        13px;
+
+}
+
+
+.section-title small {
+
+    color:
+        var(--muted);
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        7px;
+
+    letter-spacing:
+        2px;
+
+}
+
+
+.section-title h2 {
+
+    margin:
+        5px 0 0;
+
+}
+
+
+/* ACCOUNTS */
+
+.accounts-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap:
+        8px;
+
+}
+
+
+.account-card {
+
+    background:
+        linear-gradient(
+            145deg,
+            #0a1927,
+            #050c14
+        );
+
+    border:
+        1px solid
+        var(--line);
+
+    padding:
+        16px;
+
+}
+
+
+.account-card small {
+
+    color:
+        var(--muted);
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        7px;
+
+}
+
+
+.account-card strong {
+
+    display:
+        block;
+
+    margin:
+        8px 0;
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        15px;
+
+    color:
+        var(--cyan);
+
+}
+
+
+.account-card span {
+
+    color:
+        var(--muted);
+
+    font-size:
+        9px;
+
+}
+
+
+.account-delete {
+
+    float:
+        right;
+
+    border:
+        0;
+
+    background:
+        transparent;
+
+    color:
+        #ff5b72;
+
+    cursor:
+        pointer;
+
+}
+
+
+/* BUDGET */
+
+.budget-list {
+
+    display:
+        grid;
+
+    gap:
+        8px;
+
+}
+
+
+.budget-card {
+
+    padding:
+        13px;
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        #06111c;
+
+}
+
+
+.budget-top {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+}
+
+
+.budget-top strong {
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        11px;
+
+}
+
+
+.budget-top span {
+
+    color:
+        var(--muted);
+
+    font-size:
+        9px;
+
+}
+
+
+.budget-bar {
+
+    height:
+        6px;
+
+    background:
+        #02070c;
+
+    margin-top:
+        9px;
+
+}
+
+
+.budget-bar i {
+
+    display:
+        block;
+
+    height:
+        100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--cyan),
+            var(--green)
+        );
+
+}
+
+
+/* OBLIGATION */
+
+.obligation-grid {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr 1fr;
+
+    gap:
+        8px;
+
+}
+
+
+.obligation-card {
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        #071321;
+
+    padding:
+        18px;
+
+}
+
+
+.obligation-card small {
+
+    color:
+        var(--muted);
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        7px;
+
+}
+
+
+.obligation-card strong {
+
+    display:
+        block;
+
+    margin-top:
+        8px;
+
+    color:
+        var(--pink);
+
+    font-family:
+        Orbitron;
+
+}
+
+
+/* TRANSACTIONS */
+
+.transaction-list {
+
+    border-top:
+        1px solid
+        var(--line);
+
+}
+
+
+.transaction {
+
+    display:
+        grid;
+
+    grid-template-columns:
+        55px 1fr auto;
+
+    align-items:
+        center;
+
+    gap:
+        10px;
+
+    padding:
+        12px 4px;
+
+    border-bottom:
+        1px solid
+        #122538;
+
+}
+
+
+.transaction-date {
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        8px;
+
+    color:
+        var(--muted);
+
+}
+
+
+.transaction-info strong {
+
+    display:
+        block;
+
+    font-size:
+        13px;
+
+}
+
+
+.transaction-info small {
+
+    color:
+        var(--muted);
+
+    font-size:
+        9px;
+
+}
+
+
+.transaction-amount {
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        10px;
+
+}
+
+
+.transaction.income-tx
+.transaction-amount {
+
+    color:
+        var(--green);
+
+}
+
+
+.income-tx .transaction-amount {
+
+    color:
+        var(--green);
+
+}
+
+
+.expense-tx .transaction-amount {
+
+    color:
+        #ff5b72;
+
+}
+
+
+/* BUTTON */
+
+.small-button,
+.danger-button {
+
+    border:
+        1px solid
+        var(--line);
+
+    background:
+        #071522;
+
+    color:
+        var(--cyan);
+
+    padding:
+        8px 10px;
+
+    font-family:
+        Orbitron;
+
+    font-size:
+        7px;
+
+    cursor:
+        pointer;
+
+    text-decoration:
+        none;
+
+}
+
+
+.danger-button {
+
+    color:
+        #ff5b72;
+
+    border-color:
+        #ff5b7244;
+
+}
+
+
+.ledger-tools {
+
+    display:
+        flex;
+
+    gap:
+        5px;
+
+}
+
+
+/* MODAL */
+
+.modal {
+
+    position:
+        fixed;
+
+    inset:
+        0;
+
+    z-index:
+        500;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        center;
+
+    padding:
+        15px;
+
+    background:
+        rgba(0,0,0,.8);
+
+}
+
+
+.modal.hidden {
+
+    display:
+        none;
+
+}
+
+
+.modal-box {
+
+    width:
+        min(450px, 100%);
+
+    max-height:
+        90vh;
+
+    overflow:
+        auto;
+
+    padding:
+        20px;
+
+    background:
+        #071321;
+
+    border:
+        1px solid
+        var(--cyan);
+
+    box-shadow:
+        0 0 40px
+        rgba(22,230,255,.15);
+
+}
+
+
+.modal-header {
+
+    display:
+        flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    margin-bottom:
+        20px;
+
+}
+
+
+.modal-header h2 {
+
+    margin:
+        0;
+
+}
+
+
+.close-button {
+
+    border:
+        0;
+
+    background:
+        transparent;
+
+    color:
+        var(--cyan);
+
+    font-size:
+        25px;
+
+    cursor:
+        pointer;
+
+}
+
+
+.modal-box label {
+
+    display:
+        block;
+
+    margin-bottom:
+        13px;
+
+    color:
+        var(--muted);
+
+    font-size:
+        10px;
+
+}
+
+
+.modal-box input,
+.modal-box select,
+.modal-box textarea {
+
+    width:
+        100%;
+
+    margin-top:
+        5px;
+
+    padding:
+        11px;
+
+    background:
+        #030b13;
+
+    border:
+        1px solid
+        var(--line);
+
+    color:
+        var(--text);
+
+    outline:
+        none;
+
+    font-family:
+        Rajdhani;
+
+}
+
+
+.modal-box textarea {
+
+    min-height:
+        70px;
+
+    resize:
+        vertical;
+
+}
+
+
+.submit-button {
+
+    width:
+        100%;
+
+    padding:
+        13px;
+
+    border:
+        1px solid
+        var(--green);
+
+    background:
+        #06151a;
+
+    color:
+        var(--green);
+
+    font-family:
+        Orbitron;
+
+    cursor:
+        pointer;
+
+}
+
+
+/* EMPTY */
+
+.empty {
+
+    padding:
+        25px;
+
+    text-align:
+        center;
+
+    color:
+        var(--muted);
+
+    border:
+        1px dashed
+        var(--line);
+
+    font-size:
+        11px;
+
+}
+
+
+/* MOBILE */
+
+@media(max-width:700px) {
+
+    .finance-header {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .finance-month {
+
+        text-align:
+            left;
+
+    }
+
+
+    .money-summary {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .main-balance {
+
+        grid-column:
+            span 2;
+
+    }
+
+
+    .quick-actions {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .accounts-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+
+    .ledger-tools {
+
+        flex-wrap:
+            wrap;
+
+    }
+
+}
+
+
+@media(max-width:430px) {
+
+    .money-summary {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .main-balance {
+
+        grid-column:
+            auto;
+
+    }
+
+
+    .accounts-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .obligation-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+}
