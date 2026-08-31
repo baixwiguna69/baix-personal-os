@@ -1,81 +1,486 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#050811">
-<title>BAIX NEON GRID OS</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#030711">
+
+    <title>BAIX NEON GRID OS</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="scan"></div>
+
+<div class="grid-background"></div>
+<div class="scanlines"></div>
+
 <div class="app">
-<header>
-  <div class="brand"><span class="bolt">⚡</span><div><strong>BAIX</strong> NEON GRID OS<small>PERSONAL LIFE OPERATING SYSTEM</small></div></div>
-  <div class="system"><i></i> SYSTEM ONLINE <b id="clock">00:00:00</b></div>
-</header>
 
-<section class="hero-grid">
-  <div class="hero panel">
-    <div class="eyebrow">COMMAND CENTER // <span id="today"></span></div>
-    <h1>CONTROL YOUR<br><em>LIFE SYSTEM.</em></h1>
-    <p>Semua modul terpisah. Satu pusat kendali. Data tersimpan lokal.</p>
-    <div class="powerline"><span></span></div>
-  </div>
-  <div class="cycle panel">
-    <div class="eyebrow">ACTIVE CYCLE</div>
-    <div class="cycle-name" id="cycle">SHIFT 1</div>
-    <div class="cycle-actions">
-      <button onclick="setCycle('SHIFT 1')">S1</button>
-      <button onclick="setCycle('SHIFT 2')">S2</button>
-      <button onclick="setCycle('LIBUR')">OFF</button>
-    </div>
-    <small>NEXT ROUTINE</small>
-    <strong id="next">SHIFT 1 → SHIFT 2</strong>
-  </div>
-</section>
+    <!-- ================= HEADER ================= -->
 
-<section class="prayer panel">
-  <div class="section-title"><span>◈ PRAYER GRID</span><small>JADWAL HARI INI</small></div>
-  <div class="prayers">
-    <div><small>SUBUH</small><b>04:35</b></div>
-    <div><small>DZUHUR</small><b>12:00</b></div>
-    <div><small>ASHAR</small><b>15:20</b></div>
-    <div><small>MAGHRIB</small><b>18:00</b></div>
-    <div><small>ISYA</small><b>19:10</b></div>
-  </div>
-</section>
+    <header class="topbar">
 
-<section class="modules">
-  <a class="module finance" href="modules/finance/index.html"><span>₿</span><div><small>CORE 01</small><h2>FINANCE</h2><p>Money • Accounts • Cashflow</p></div><b>↗</b></a>
-  <a class="module body" href="modules/body/index.html"><span>⚡</span><div><small>CORE 02</small><h2>BODY</h2><p>Weight • Food • Workout</p></div><b>↗</b></a>
-  <a class="module schedule" href="modules/schedule/index.html"><span>◷</span><div><small>CORE 03</small><h2>SCHEDULE</h2><p>Shift • Tasks • Routine</p></div><b>↗</b></a>
-  <a class="module debt" href="modules/debt/index.html"><span>⌁</span><div><small>CORE 04</small><h2>DEBT</h2><p>Liability • Tempo • Cicilan</p></div><b>↗</b></a>
-</section>
+        <div class="brand">
 
-<section class="quick panel">
-  <div class="section-title"><span>⚡ QUICK ACTION</span><small>FAST CONTROL</small></div>
-  <div class="quick-grid">
-    <button onclick="toast('Quick transaction siap dihubungkan ke Finance Core.')">＋ TRANSACTION</button>
-    <button onclick="toast('Workout logger siap dihubungkan ke Body Core.')">＋ WORKOUT</button>
-    <button onclick="toast('Task logger siap dihubungkan ke Schedule Core.')">＋ TASK</button>
-    <button onclick="toast('Backup lokal akan tersedia di System Core.')">⇩ BACKUP</button>
-  </div>
-</section>
+            <div class="brand-logo">
+                ⚡
+            </div>
 
-<footer><span>BAIX NEON GRID OS v0.1</span><span>LOCAL-FIRST // NO SUBSCRIPTION</span></footer>
+            <div>
+                <div class="brand-name">
+                    BAIX <span>NEON GRID</span>
+                </div>
+
+                <div class="brand-sub">
+                    PERSONAL LIFE OPERATING SYSTEM
+                </div>
+            </div>
+
+        </div>
+
+        <div class="system-status">
+
+            <span class="status-dot"></span>
+
+            SYSTEM ONLINE
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= CLOCK ================= -->
+
+    <section class="hero">
+
+        <div>
+
+            <div class="system-label">
+                COMMAND CENTER
+            </div>
+
+            <h1>
+                CONTROL<br>
+                <span>YOUR LIFE.</span>
+            </h1>
+
+            <p class="hero-description">
+                Pusat kendali aktivitas, ibadah, kesehatan,
+                jadwal kerja dan kehidupan finansial.
+            </p>
+
+        </div>
+
+
+        <div class="clock-panel">
+
+            <div class="clock-label">
+                LOCAL TIME
+            </div>
+
+            <div id="clock">
+                00:00:00
+            </div>
+
+            <div id="date">
+                ---
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= PRAYER ================= -->
+
+    <section class="panel prayer-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <div class="system-label">
+                    PRAYER GRID
+                </div>
+
+                <h2>
+                    WAKTU SHOLAT
+                </h2>
+            </div>
+
+            <div class="location-status">
+                📍 <span id="location">Mendeteksi lokasi...</span>
+            </div>
+
+        </div>
+
+
+        <div class="prayer-grid">
+
+            <div class="prayer-card">
+                <small>SUBUH</small>
+                <strong id="subuh">--:--</strong>
+            </div>
+
+            <div class="prayer-card">
+                <small>DZUHUR</small>
+                <strong id="dzuhur">--:--</strong>
+            </div>
+
+            <div class="prayer-card">
+                <small>ASHAR</small>
+                <strong id="ashar">--:--</strong>
+            </div>
+
+            <div class="prayer-card">
+                <small>MAGHRIB</small>
+                <strong id="maghrib">--:--</strong>
+            </div>
+
+            <div class="prayer-card">
+                <small>ISYA</small>
+                <strong id="isya">--:--</strong>
+            </div>
+
+        </div>
+
+        <div class="prayer-next">
+
+            <span>NEXT PRAYER</span>
+
+            <strong id="nextPrayer">
+                Mendeteksi...
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CYCLE ================= -->
+
+    <section class="panel cycle-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <div class="system-label">
+                    WORK CYCLE
+                </div>
+
+                <h2>
+                    SIKLUS AKTIF
+                </h2>
+            </div>
+
+            <div class="active-badge">
+                ACTIVE
+            </div>
+
+        </div>
+
+
+        <div class="current-cycle">
+
+            <div>
+
+                <small>
+                    HARI INI
+                </small>
+
+                <strong id="currentCycle">
+                    SHIFT 1
+                </strong>
+
+            </div>
+
+
+            <div class="arrow">
+                →
+            </div>
+
+
+            <div>
+
+                <small>
+                    BESOK
+                </small>
+
+                <strong id="nextCycle">
+                    SHIFT 2
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="cycle-buttons">
+
+            <button data-cycle="SHIFT 1">
+                SHIFT 1
+            </button>
+
+            <button data-cycle="SHIFT 2">
+                SHIFT 2
+            </button>
+
+            <button data-cycle="LIBUR">
+                LIBUR
+            </button>
+
+        </div>
+
+
+        <div class="cycle-info">
+
+            Pilih siklus untuk jadwal <b>hari berikutnya</b>.
+            Sistem akan menyimpan pilihan di perangkat ini.
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= TASK ================= -->
+
+    <section class="tasks-section">
+
+        <div class="section-header">
+
+            <div>
+                <div class="system-label">
+                    DAILY PROTOCOL
+                </div>
+
+                <h2>
+                    TASK HARI INI
+                </h2>
+            </div>
+
+            <div class="task-counter">
+                <span id="doneCount">0</span> /
+                <span id="totalCount">0</span>
+            </div>
+
+        </div>
+
+
+        <div class="task-progress">
+
+            <div id="taskProgress"></div>
+
+        </div>
+
+
+        <div id="taskList"></div>
+
+    </section>
+
+
+
+    <!-- ================= NEXT ACTION ================= -->
+
+    <section class="panel next-panel">
+
+        <div class="system-label">
+            NEXT ACTION
+        </div>
+
+        <div class="next-action">
+
+            <div>
+
+                <small id="nextTaskTime">
+                    --:--
+                </small>
+
+                <h2 id="nextTaskTitle">
+                    Tidak ada task
+                </h2>
+
+                <p id="nextTaskDescription">
+                    Semua aktivitas selesai.
+                </p>
+
+            </div>
+
+            <button id="completeNext">
+                ✓
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= CORE SYSTEM ================= -->
+
+    <section class="core-section">
+
+        <div class="section-header">
+
+            <div>
+
+                <div class="system-label">
+                    SYSTEM CORES
+                </div>
+
+                <h2>
+                    LIFE MODULES
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="core-grid">
+
+
+            <a href="modules/finance/index.html"
+               class="core-card finance">
+
+                <div class="core-icon">
+                    ₿
+                </div>
+
+                <div class="core-content">
+
+                    <small>
+                        CORE 01
+                    </small>
+
+                    <strong>
+                        FINANCE
+                    </strong>
+
+                    <span>
+                        Income • Expense • Bank • Saving
+                    </span>
+
+                </div>
+
+                <b>↗</b>
+
+            </a>
+
+
+
+            <a href="modules/body/index.html"
+               class="core-card body">
+
+                <div class="core-icon">
+                    ⚡
+                </div>
+
+                <div class="core-content">
+
+                    <small>
+                        CORE 02
+                    </small>
+
+                    <strong>
+                        BODY
+                    </strong>
+
+                    <span>
+                        Weight • Food • Workout
+                    </span>
+
+                </div>
+
+                <b>↗</b>
+
+            </a>
+
+
+
+            <a href="modules/schedule/index.html"
+               class="core-card schedule">
+
+                <div class="core-icon">
+                    ◷
+                </div>
+
+                <div class="core-content">
+
+                    <small>
+                        CORE 03
+                    </small>
+
+                    <strong>
+                        SCHEDULE
+                    </strong>
+
+                    <span>
+                        Shift • Routine • Calendar
+                    </span>
+
+                </div>
+
+                <b>↗</b>
+
+            </a>
+
+
+
+            <a href="modules/debt/index.html"
+               class="core-card debt">
+
+                <div class="core-icon">
+                    ⛓
+                </div>
+
+                <div class="core-content">
+
+                    <small>
+                        CORE 04
+                    </small>
+
+                    <strong>
+                        DEBT
+                    </strong>
+
+                    <span>
+                        Hutang • Tempo • Cicilan
+                    </span>
+
+                </div>
+
+                <b>↗</b>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+    <footer>
+
+        <span>
+            BAIX NEON GRID OS
+        </span>
+
+        <span>
+            LOCAL-FIRST • v0.2
+        </span>
+
+    </footer>
+
 </div>
+
+
 <div id="toast"></div>
-<script>
-const c=document.getElementById('clock');
-function tick(){c.textContent=new Date().toLocaleTimeString('id-ID',{hour12:false})}
-setInterval(tick,1000);tick();
-document.getElementById('today').textContent=new Intl.DateTimeFormat('id-ID',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric'}).format(new Date()).toUpperCase();
-let cycle=localStorage.getItem('baix-cycle')||'SHIFT 1';
-function setCycle(v){cycle=v;localStorage.setItem('baix-cycle',v);renderCycle();toast('CYCLE ACTIVE: '+v)}
-function renderCycle(){document.getElementById('cycle').textContent=cycle;document.getElementById('next').textContent=cycle==='SHIFT 1'?'SHIFT 1 → SHIFT 2':cycle==='SHIFT 2'?'SHIFT 2 → LIBUR':'LIBUR → SHIFT 1'}
-renderCycle();
-function toast(t){let x=document.getElementById('toast');x.textContent=t;x.classList.add('show');setTimeout(()=>x.classList.remove('show'),2200)}
-</script>
+
+<script src="app.js"></script>
+
 </body>
 </html>
