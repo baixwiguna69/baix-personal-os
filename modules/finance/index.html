@@ -531,6 +531,100 @@
     </div>
 
 
+    <!-- ================= TRANSFER MODAL ================= -->
+<div
+    id="transferModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2>
+                ↔ TRANSFER DANA
+            </h2>
+
+            <button
+                id="closeTransferModal"
+                class="close-button"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="transferForm">
+
+            <label>
+                Tanggal
+
+                <input
+                    type="date"
+                    id="transferDate"
+                    required
+                >
+            </label>
+
+
+            <label>
+                Dari Rekening
+
+                <select
+                    id="transferFrom"
+                    required
+                ></select>
+            </label>
+
+
+            <label>
+                Ke Rekening
+
+                <select
+                    id="transferTo"
+                    required
+                ></select>
+            </label>
+
+
+            <label>
+                Jumlah
+
+                <input
+                    type="number"
+                    id="transferAmount"
+                    min="1"
+                    required
+                    placeholder="Contoh: 500000"
+                >
+            </label>
+
+
+            <label>
+                Catatan
+
+                <textarea
+                    id="transferNote"
+                    placeholder="Contoh: Ambil cash untuk kebutuhan harian"
+                ></textarea>
+
+            </label>
+
+
+            <button
+                type="submit"
+                class="submit-button"
+            >
+                KONFIRMASI TRANSFER
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
 
     <!-- ACCOUNT MODAL -->
 
