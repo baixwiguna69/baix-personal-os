@@ -749,14 +749,6 @@
 }
 
 
-.income-tx .transaction-amount {
-
-    color:
-        var(--green);
-
-}
-
-
 .expense-tx .transaction-amount {
 
     color:
