@@ -834,6 +834,268 @@ document.getElementById(
 
 };
 
+/* ==========================================
+   OPEN TRANSFER
+========================================== */
+
+document.getElementById(
+    "openTransfer"
+).onclick = () => {
+
+    renderTransferAccountSelect();
+
+
+    document.getElementById(
+        "transferDate"
+    ).value =
+        today();
+
+
+    document.getElementById(
+        "transferAmount"
+    ).value = "";
+
+
+    document.getElementById(
+        "transferNote"
+    ).value = "";
+
+
+    const modal =
+        document.getElementById(
+            "transferModal"
+        );
+
+
+    modal.classList.remove(
+        "hidden"
+    );
+
+};
+
+/* ==========================================
+   CLOSE TRANSFER
+========================================== */
+
+document.getElementById(
+    "closeTransferModal"
+).onclick = () => {
+
+    document.getElementById(
+        "transferModal"
+    ).classList.add(
+        "hidden"
+    );
+
+};
+
+/* ==========================================
+   SUBMIT TRANSFER
+========================================== */
+
+document.getElementById(
+    "transferForm"
+).onsubmit =
+    event => {
+
+        event.preventDefault();
+
+
+        const fromAccountId =
+            document.getElementById(
+                "transferFrom"
+            ).value;
+
+
+        const toAccountId =
+            document.getElementById(
+                "transferTo"
+            ).value;
+
+
+        const amount =
+            Number(
+                document.getElementById(
+                    "transferAmount"
+                ).value
+            );
+
+
+        const date =
+            document.getElementById(
+                "transferDate"
+            ).value;
+
+
+        const note =
+            document.getElementById(
+                "transferNote"
+            ).value;
+
+
+        /* ==========================
+           VALIDATION
+        ========================== */
+
+        if (
+            !fromAccountId ||
+            !toAccountId
+        ) {
+
+            alert(
+                "Pilih rekening asal dan tujuan."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            fromAccountId ===
+            toAccountId
+        ) {
+
+            alert(
+                "Rekening asal dan tujuan tidak boleh sama."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            !amount ||
+            amount <= 0
+        ) {
+
+            alert(
+                "Jumlah transfer tidak valid."
+            );
+
+            return;
+
+        }
+
+
+        const fromAccount =
+            db.accounts.find(
+                account =>
+                    account.id ===
+                    fromAccountId
+            );
+
+
+        const toAccount =
+            db.accounts.find(
+                account =>
+                    account.id ===
+                    toAccountId
+            );
+
+
+        if (
+            !fromAccount ||
+            !toAccount
+        ) {
+
+            alert(
+                "Rekening tidak ditemukan."
+            );
+
+            return;
+
+        }
+
+
+        /* ==========================
+           CHECK BALANCE
+        ========================== */
+
+        const sourceBalance =
+            calculateAccountBalance(
+                fromAccount
+            );
+
+
+        if (
+            amount >
+            sourceBalance
+        ) {
+
+            alert(
+                `Saldo ${fromAccount.name} tidak cukup.\n\n` +
+                `Saldo tersedia: ${money(
+                    sourceBalance
+                )}\n` +
+                `Transfer: ${money(
+                    amount
+                )}`
+            );
+
+            return;
+
+        }
+
+
+        /* ==========================
+           CREATE TRANSFER
+        ========================== */
+
+        const transfer = {
+
+            id:
+                crypto.randomUUID(),
+
+            type:
+                "transfer",
+
+            date,
+
+            amount,
+
+            fromAccountId,
+
+            toAccountId,
+
+            category:
+                "Transfer",
+
+            note
+
+        };
+
+
+        db.transactions.push(
+            transfer
+        );
+
+
+        saveDatabase();
+
+
+        document.getElementById(
+            "transferForm"
+        ).reset();
+
+
+        document.getElementById(
+            "transferModal"
+        ).classList.add(
+            "hidden"
+        );
+
+
+        renderAll();
+
+
+        showToast(
+            `TRANSFER ${money(amount)} BERHASIL`
+        );
+
+    };
+
 
 document.getElementById(
     "closeModal"
@@ -1097,11 +1359,31 @@ function renderTransactions() {
         transaction => {
 
             const account =
-                db.accounts.find(
-                    item =>
-                        item.id ===
-                        transaction.accountId
-                );
+    db.accounts.find(
+        item =>
+            item.id ===
+            transaction.accountId
+    );
+
+
+const fromAccount =
+    transaction.type === "transfer"
+        ? db.accounts.find(
+            item =>
+                item.id ===
+                transaction.fromAccountId
+        )
+        : null;
+
+
+const toAccount =
+    transaction.type === "transfer"
+        ? db.accounts.find(
+            item =>
+                item.id ===
+                transaction.toAccountId
+        )
+        : null;
 
 
             const element =
@@ -1111,20 +1393,22 @@ function renderTransactions() {
 
 
             element.className =
-                "transaction " +
-                (
-                    transaction.type
-                    === "income"
-                        ? "income-tx"
-                        : "expense-tx"
-                );
+    "transaction " +
+    (
+        transaction.type === "income"
+            ? "income-tx"
+            : transaction.type === "expense"
+                ? "expense-tx"
+                : "transfer-tx"
+    );
 
 
             const sign =
-                transaction.type
-                === "income"
-                    ? "+"
-                    : "-";
+    transaction.type === "income"
+        ? "+"
+        : transaction.type === "expense"
+            ? "-"
+            : "↔";
 
 
             element.innerHTML = `
@@ -1147,14 +1431,30 @@ function renderTransactions() {
                     </strong>
 
                     <small>
-                        ${account
-                            ? account.name
-                            : "Unknown"}
-                        ${transaction.note
-                            ? " • " +
-                              transaction.note
-                            : ""}
-                    </small>
+
+    ${
+        transaction.type === "transfer"
+            ? `${fromAccount
+                ? fromAccount.name
+                : "Unknown"
+              } → ${
+                toAccount
+                ? toAccount.name
+                : "Unknown"
+              }`
+            : account
+                ? account.name
+                : "Unknown"
+    }
+
+    ${
+        transaction.note
+            ? " • " +
+              transaction.note
+            : ""
+    }
+
+</small>
 
                 </div>
 
@@ -1580,6 +1880,8 @@ function renderAll() {
     renderAccounts();
 
     renderAccountSelect();
+
+    renderTransferAccountSelect();
 
     renderTransactions();
 
