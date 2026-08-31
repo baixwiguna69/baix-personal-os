@@ -1129,4 +1129,22 @@
 
     }
 
+
+    /* ==========================================
+   TRANSFER TRANSACTION
+========================================== */
+
+.transfer-tx {
+
+    border-color:
+        rgba(0, 229, 255, 0.45);
+
+}
+
+
+.transfer-tx .transaction-amount {
+
+    color:
+        #00e5ff;
+
 }
