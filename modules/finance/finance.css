@@ -741,8 +741,7 @@
 }
 
 
-.transaction.income-tx
-.transaction-amount {
+.income-tx .transaction-amount {
 
     color:
         var(--green);
