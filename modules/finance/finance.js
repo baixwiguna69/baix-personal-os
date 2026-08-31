@@ -196,6 +196,96 @@ function renderAccountSelect() {
 }
 
 
+
+/* ==========================================
+   TRANSFER ACCOUNT SELECT
+========================================== */
+
+function renderTransferAccountSelect() {
+
+    const from =
+        document.getElementById(
+            "transferFrom"
+        );
+
+    const to =
+        document.getElementById(
+            "transferTo"
+        );
+
+
+    from.innerHTML = "";
+
+    to.innerHTML = "";
+
+
+    if (
+        db.accounts.length < 2
+    ) {
+
+        from.innerHTML =
+            `<option value="">
+                Minimal 2 rekening
+            </option>`;
+
+        to.innerHTML =
+            `<option value="">
+                Minimal 2 rekening
+            </option>`;
+
+        return;
+    }
+
+
+    db.accounts.forEach(
+        account => {
+
+            const optionFrom =
+                document.createElement(
+                    "option"
+                );
+
+            optionFrom.value =
+                account.id;
+
+            optionFrom.textContent =
+                `${account.name} — ${money(
+                    calculateAccountBalance(
+                        account
+                    )
+                )}`;
+
+
+            const optionTo =
+                document.createElement(
+                    "option"
+                );
+
+            optionTo.value =
+                account.id;
+
+            optionTo.textContent =
+                `${account.name} — ${money(
+                    calculateAccountBalance(
+                        account
+                    )
+                )}`;
+
+
+            from.appendChild(
+                optionFrom
+            );
+
+            to.appendChild(
+                optionTo
+            );
+
+        }
+    );
+
+}
+
+
 /* ==========================================
    CALCULATE ACCOUNT BALANCE
 ========================================== */
