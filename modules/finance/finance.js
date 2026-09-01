@@ -1328,7 +1328,7 @@ function renderTransactions() {
                     ) === month
             )
             .sort(
-                (a,b) =>
+                (a, b) =>
                     b.date.localeCompare(
                         a.date
                     )
@@ -1359,31 +1359,31 @@ function renderTransactions() {
         transaction => {
 
             const account =
-    db.accounts.find(
-        item =>
-            item.id ===
-            transaction.accountId
-    );
+                db.accounts.find(
+                    item =>
+                        item.id ===
+                        transaction.accountId
+                );
 
 
-const fromAccount =
-    transaction.type === "transfer"
-        ? db.accounts.find(
-            item =>
-                item.id ===
-                transaction.fromAccountId
-        )
-        : null;
+            const fromAccount =
+                transaction.type === "transfer"
+                    ? db.accounts.find(
+                        item =>
+                            item.id ===
+                            transaction.fromAccountId
+                    )
+                    : null;
 
 
-const toAccount =
-    transaction.type === "transfer"
-        ? db.accounts.find(
-            item =>
-                item.id ===
-                transaction.toAccountId
-        )
-        : null;
+            const toAccount =
+                transaction.type === "transfer"
+                    ? db.accounts.find(
+                        item =>
+                            item.id ===
+                            transaction.toAccountId
+                    )
+                    : null;
 
 
             const element =
@@ -1393,22 +1393,39 @@ const toAccount =
 
 
             element.className =
-    "transaction " +
-    (
-        transaction.type === "income"
-            ? "income-tx"
-            : transaction.type === "expense"
-                ? "expense-tx"
-                : "transfer-tx"
-    );
+                "transaction " +
+                (
+                    transaction.type === "income"
+                        ? "income-tx"
+                        : transaction.type === "expense"
+                            ? "expense-tx"
+                            : "transfer-tx"
+                );
 
 
             const sign =
-    transaction.type === "income"
-        ? "+"
-        : transaction.type === "expense"
-            ? "-"
-            : "↔";
+                transaction.type === "income"
+                    ? "+"
+                    : transaction.type === "expense"
+                        ? "-"
+                        : "↔";
+
+
+            const accountText =
+                transaction.type === "transfer"
+
+                    ? `${fromAccount
+                        ? fromAccount.name
+                        : "Unknown"
+                      } → ${
+                        toAccount
+                        ? toAccount.name
+                        : "Unknown"
+                      }`
+
+                    : account
+                        ? account.name
+                        : "Unknown";
 
 
             element.innerHTML = `
@@ -1418,8 +1435,9 @@ const toAccount =
                     ${transaction.date
                         .split("-")
                         .reverse()
-                        .slice(0,2)
-                        .join("/")}
+                        .slice(0, 2)
+                        .join("/")
+                    }
 
                 </div>
 
@@ -1430,31 +1448,19 @@ const toAccount =
                         ${transaction.category}
                     </strong>
 
+
                     <small>
 
-    ${
-        transaction.type === "transfer"
-            ? `${fromAccount
-                ? fromAccount.name
-                : "Unknown"
-              } → ${
-                toAccount
-                ? toAccount.name
-                : "Unknown"
-              }`
-            : account
-                ? account.name
-                : "Unknown"
-    }
+                        ${accountText}
 
-    ${
-        transaction.note
-            ? " • " +
-              transaction.note
-            : ""
-    }
+                        ${
+                            transaction.note
+                                ? " • " +
+                                  transaction.note
+                                : ""
+                        }
 
-</small>
+                    </small>
 
                 </div>
 
@@ -1468,6 +1474,26 @@ const toAccount =
 
                 </div>
 
+
+                <div class="transaction-actions">
+
+                    <button
+                        class="transaction-edit"
+                        data-id="${transaction.id}"
+                    >
+                        EDIT
+                    </button>
+
+
+                    <button
+                        class="transaction-delete"
+                        data-id="${transaction.id}"
+                    >
+                        HAPUS
+                    </button>
+
+                </div>
+
             `;
 
 
@@ -1477,6 +1503,52 @@ const toAccount =
 
         }
     );
+
+
+    /* ==========================================
+       EDIT TRANSACTION BUTTON
+    ========================================== */
+
+    container
+        .querySelectorAll(
+            ".transaction-edit"
+        )
+        .forEach(
+            button => {
+
+                button.onclick = () => {
+
+                    editTransaction(
+                        button.dataset.id
+                    );
+
+                };
+
+            }
+        );
+
+
+    /* ==========================================
+       DELETE TRANSACTION BUTTON
+    ========================================== */
+
+    container
+        .querySelectorAll(
+            ".transaction-delete"
+        )
+        .forEach(
+            button => {
+
+                button.onclick = () => {
+
+                    deleteTransaction(
+                        button.dataset.id
+                    );
+
+                };
+
+            }
+        );
 
 }
 
