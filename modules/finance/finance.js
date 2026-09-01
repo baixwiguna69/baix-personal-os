@@ -1478,14 +1478,6 @@ function renderTransactions() {
                 <div class="transaction-actions">
 
                     <button
-                        class="transaction-edit"
-                        data-id="${transaction.id}"
-                    >
-                        EDIT
-                    </button>
-
-
-                    <button
                         class="transaction-delete"
                         data-id="${transaction.id}"
                     >
@@ -1503,29 +1495,6 @@ function renderTransactions() {
 
         }
     );
-
-
-    /* ==========================================
-       EDIT TRANSACTION BUTTON
-    ========================================== */
-
-    container
-        .querySelectorAll(
-            ".transaction-edit"
-        )
-        .forEach(
-            button => {
-
-                button.onclick = () => {
-
-                    editTransaction(
-                        button.dataset.id
-                    );
-
-                };
-
-            }
-        );
 
 
     /* ==========================================
