@@ -1,1 +1,511 @@
-<!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DEBT CORE</title><link rel="stylesheet" href="../../style.css"></head><body><div class="app"><header><div class="brand"><span class="bolt">⚡</span><div><strong>BAIX</strong> DEBT CORE<small>LIABILITY CONTROL SYSTEM</small></div></div><a class="system" href="../../index.html">← COMMAND CENTER</a></header><section class="hero panel"><div class="eyebrow">MODULE // DEBT</div><h1>DEBT<br><em>CORE.</em></h1><p>Modul ini berdiri sendiri dan akan dikembangkan bertahap tanpa mengacaukan Dashboard utama.</p><div class="powerline"></div></section></div></body></html>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        BAIX OS — Debt & Obligation
+    </title>
+
+
+    <!-- MAIN OS STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="../../style.css"
+    >
+
+
+    <!-- DEBT STYLE -->
+
+    <link
+        rel="stylesheet"
+        href="debt.css"
+    >
+
+</head>
+
+
+<body>
+
+    <main class="debt-page">
+
+
+        <!-- =====================================
+             HEADER
+        ====================================== -->
+
+        <header class="debt-header">
+
+            <div>
+
+                <div class="system-label">
+                    BAIX PERSONAL OS
+                </div>
+
+                <h1>
+                    DEBT
+                    <span>&</span>
+                    OBLIGATION
+                </h1>
+
+                <p>
+                    Financial obligation monitoring system
+                </p>
+
+            </div>
+
+
+            <a
+                href="../../index.html"
+                class="back-button"
+            >
+                ← DASHBOARD
+            </a>
+
+        </header>
+
+
+
+        <!-- =====================================
+             OVERVIEW
+        ====================================== -->
+
+        <section class="debt-overview">
+
+
+            <div class="debt-card">
+
+                <span>
+                    TOTAL HUTANG
+                </span>
+
+                <strong id="totalDebt">
+                    Rp0
+                </strong>
+
+            </div>
+
+
+            <div class="debt-card">
+
+                <span>
+                    TOTAL KEWAJIBAN
+                </span>
+
+                <strong id="totalObligation">
+                    Rp0
+                </strong>
+
+            </div>
+
+
+            <div class="debt-card danger">
+
+                <span>
+                    JATUH TEMPO TERDEKAT
+                </span>
+
+                <strong id="nearestDue">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div class="debt-card">
+
+                <span>
+                    SUDAH DIBAYAR
+                </span>
+
+                <strong id="totalPaid">
+                    Rp0
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             ACTION
+        ====================================== -->
+
+        <section class="debt-actions">
+
+            <button
+                id="addDebt"
+                class="primary-button"
+            >
+                + TAMBAH HUTANG
+            </button>
+
+
+            <button
+                id="addObligation"
+                class="secondary-button"
+            >
+                + TAMBAH KEWAJIBAN
+            </button>
+
+        </section>
+
+
+
+        <!-- =====================================
+             ACTIVE DEBT
+        ====================================== -->
+
+        <section class="debt-section">
+
+            <div class="section-title">
+
+                <h2>
+                    HUTANG AKTIF
+                </h2>
+
+                <span id="debtCount">
+                    0
+                </span>
+
+            </div>
+
+
+            <div
+                id="debtList"
+                class="debt-list"
+            >
+
+                <div class="empty">
+                    Belum ada hutang.
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             OBLIGATION
+        ====================================== -->
+
+        <section class="debt-section">
+
+            <div class="section-title">
+
+                <h2>
+                    KEWAJIBAN
+                </h2>
+
+                <span id="obligationCount">
+                    0
+                </span>
+
+            </div>
+
+
+            <div
+                id="obligationList"
+                class="debt-list"
+            >
+
+                <div class="empty">
+                    Belum ada kewajiban.
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================
+             DEBT MODAL
+        ====================================== -->
+
+        <div
+            id="debtModal"
+            class="modal hidden"
+        >
+
+            <div class="modal-box">
+
+                <div class="modal-header">
+
+                    <div>
+
+                        <span class="system-label">
+                            DEBT CORE
+                        </span>
+
+                        <h2>
+                            TAMBAH HUTANG
+                        </h2>
+
+                    </div>
+
+
+                    <button
+                        id="closeDebtModal"
+                        class="close-button"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <form id="debtForm">
+
+
+                    <label>
+
+                        Nama Hutang
+
+                        <input
+                            type="text"
+                            id="debtName"
+                            placeholder="Contoh: Hutang teman"
+                            required
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Total Hutang
+
+                        <input
+                            type="number"
+                            id="debtAmount"
+                            min="1"
+                            placeholder="1100000"
+                            required
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Tanggal Mulai
+
+                        <input
+                            type="date"
+                            id="debtStartDate"
+                            required
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Jatuh Tempo
+
+                        <input
+                            type="date"
+                            id="debtDueDate"
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Cicilan Per Bulan
+
+                        <input
+                            type="number"
+                            id="debtInstallment"
+                            min="0"
+                            placeholder="Contoh: 200000"
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Catatan
+
+                        <textarea
+                            id="debtNote"
+                            placeholder="Catatan hutang..."
+                        ></textarea>
+
+                    </label>
+
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        SIMPAN HUTANG
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================
+             OBLIGATION MODAL
+        ====================================== -->
+
+        <div
+            id="obligationModal"
+            class="modal hidden"
+        >
+
+            <div class="modal-box">
+
+                <div class="modal-header">
+
+                    <div>
+
+                        <span class="system-label">
+                            OBLIGATION CORE
+                        </span>
+
+                        <h2>
+                            TAMBAH KEWAJIBAN
+                        </h2>
+
+                    </div>
+
+
+                    <button
+                        id="closeObligationModal"
+                        class="close-button"
+                    >
+                        ×
+                    </button>
+
+                </div>
+
+
+                <form id="obligationForm">
+
+
+                    <label>
+
+                        Nama Kewajiban
+
+                        <input
+                            type="text"
+                            id="obligationName"
+                            placeholder="Contoh: UKT"
+                            required
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Jumlah
+
+                        <input
+                            type="number"
+                            id="obligationAmount"
+                            min="1"
+                            placeholder="2702000"
+                            required
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Tanggal Kewajiban
+
+                        <input
+                            type="date"
+                            id="obligationDate"
+                            required
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Cicilan
+
+                        <input
+                            type="number"
+                            id="obligationInstallment"
+                            min="0"
+                            placeholder="Opsional"
+                        >
+
+                    </label>
+
+
+
+                    <label>
+
+                        Catatan
+
+                        <textarea
+                            id="obligationNote"
+                            placeholder="Catatan kewajiban..."
+                        ></textarea>
+
+                    </label>
+
+
+
+                    <button
+                        type="submit"
+                        class="submit-button"
+                    >
+                        SIMPAN KEWAJIBAN
+                    </button>
+
+
+                </form>
+
+            </div>
+
+        </div>
+
+
+
+    </main>
+
+
+    <script
+        src="debt.js"
+    ></script>
+
+</body>
+
+</html>
