@@ -1961,5 +1961,119 @@ function renderAll() {
 
 }
 
+/* ==========================================
+   DELETE TRANSACTION
+========================================== */
+
+function deleteTransaction(id) {
+
+    const transaction =
+        db.transactions.find(
+            item => item.id === id
+        );
+
+
+    if (!transaction) {
+
+        alert(
+            "Transaksi tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            `Hapus transaksi ini?\n\n` +
+            `Tanggal: ${transaction.date}\n` +
+            `Kategori: ${transaction.category}\n` +
+            `Jumlah: ${money(transaction.amount)}\n\n` +
+            `Data yang dihapus tidak dapat dikembalikan.`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    db.transactions =
+        db.transactions.filter(
+            item => item.id !== id
+        );
+
+
+    saveDatabase();
+
+
+    renderAll();
+
+
+    showToast(
+        "TRANSAKSI BERHASIL DIHAPUS"
+    );
+
+} /* ==========================================
+   DELETE TRANSACTION
+========================================== */
+
+function deleteTransaction(id) {
+
+    const transaction =
+        db.transactions.find(
+            item => item.id === id
+        );
+
+
+    if (!transaction) {
+
+        alert(
+            "Transaksi tidak ditemukan."
+        );
+
+        return;
+
+    }
+
+
+    const confirmed =
+        confirm(
+            `Hapus transaksi ini?\n\n` +
+            `Tanggal: ${transaction.date}\n` +
+            `Kategori: ${transaction.category}\n` +
+            `Jumlah: ${money(transaction.amount)}\n\n` +
+            `Data yang dihapus tidak dapat dikembalikan.`
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    db.transactions =
+        db.transactions.filter(
+            item => item.id !== id
+        );
+
+
+    saveDatabase();
+
+
+    renderAll();
+
+
+    showToast(
+        "TRANSAKSI BERHASIL DIHAPUS"
+    );
+
+}
+
 
 renderAll();
