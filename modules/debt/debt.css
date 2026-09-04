@@ -1,9 +1,16 @@
 /* ==========================================
-   BAIX DEBT & OBLIGATION
+   BAIX DEBT & OBLIGATION CORE
+   CYBERPUNK FINANCIAL SYSTEM
+========================================== */
+
+
+/* ==========================================
+   PAGE
 ========================================== */
 
 .debt-page {
 
+    width: 100%;
     max-width: 1200px;
 
     margin: 0 auto;
@@ -50,9 +57,9 @@
 
 .debt-header p {
 
-    opacity: 0.6;
-
     margin: 0;
+
+    opacity: 0.6;
 
 }
 
@@ -93,6 +100,26 @@
 
     color: inherit;
 
+    transition:
+        0.2s ease;
+
+}
+
+
+.back-button:hover,
+.primary-button:hover,
+.secondary-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    border-color:
+        rgba(0, 229, 255, 0.8);
+
+    box-shadow:
+        0 0 15px
+        rgba(0, 229, 255, 0.15);
+
 }
 
 
@@ -107,13 +134,19 @@
 .secondary-button {
 
     background:
-        rgba(255,255,255,0.04);
+        rgba(255, 255, 255, 0.04);
 
 }
 
 
+/* ==========================================
+   HIDDEN
+========================================== */
+
 .hidden {
+
     display: none !important;
+
 }
 
 
@@ -145,7 +178,21 @@
     border-radius: 12px;
 
     background:
-        rgba(255,255,255,0.025);
+        rgba(255, 255, 255, 0.025);
+
+    transition:
+        0.2s ease;
+
+}
+
+
+.debt-card:hover {
+
+    border-color:
+        rgba(0, 229, 255, 0.4);
+
+    transform:
+        translateY(-2px);
 
 }
 
@@ -225,6 +272,8 @@
 
     letter-spacing: 2px;
 
+    margin: 0;
+
 }
 
 
@@ -250,7 +299,7 @@
     opacity: 0.5;
 
     border: 1px dashed
-        rgba(255,255,255,0.15);
+        rgba(255, 255, 255, 0.15);
 
     border-radius: 10px;
 
@@ -258,12 +307,299 @@
 
 
 /* ==========================================
-   RESPONSIVE
+   MODAL BACKDROP
 ========================================== */
 
-@media (
-    max-width: 800px
-) {
+.modal {
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 9999;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+    background:
+        rgba(0, 0, 0, 0.78);
+
+    backdrop-filter:
+        blur(6px);
+
+}
+
+
+/* ==========================================
+   MODAL HIDDEN
+========================================== */
+
+.modal.hidden {
+
+    display: none !important;
+
+}
+
+
+/* ==========================================
+   MODAL BOX
+========================================== */
+
+.modal-box {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 25px;
+
+    border: 1px solid
+        rgba(0, 229, 255, 0.4);
+
+    border-radius: 14px;
+
+    background:
+        #06131d;
+
+    box-shadow:
+        0 0 40px
+        rgba(0, 229, 255, 0.15);
+
+}
+
+
+/* ==========================================
+   MODAL HEADER
+========================================== */
+
+.modal-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.modal-header h2 {
+
+    margin:
+        5px 0 0;
+
+    letter-spacing: 1px;
+
+}
+
+
+/* ==========================================
+   CLOSE BUTTON
+========================================== */
+
+.close-button {
+
+    cursor: pointer;
+
+    border: 1px solid
+        rgba(255, 80, 100, 0.45);
+
+    background:
+        transparent;
+
+    color: inherit;
+
+    padding: 8px 12px;
+
+    border-radius: 7px;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    transition:
+        0.2s ease;
+
+}
+
+
+.close-button:hover {
+
+    border-color:
+        rgba(255, 80, 100, 0.9);
+
+    transform:
+        scale(1.05);
+
+}
+
+
+/* ==========================================
+   FORM
+========================================== */
+
+.modal-box form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+
+}
+
+
+.modal-box label {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+
+    font-size: 13px;
+
+    letter-spacing: 0.5px;
+
+}
+
+
+.modal-box input,
+.modal-box textarea {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px 14px;
+
+    border: 1px solid
+        rgba(0, 229, 255, 0.2);
+
+    border-radius: 8px;
+
+    outline: none;
+
+    background:
+        rgba(255, 255, 255, 0.035);
+
+    color: inherit;
+
+    font-family: inherit;
+
+}
+
+
+.modal-box input:focus,
+.modal-box textarea:focus {
+
+    border-color:
+        rgba(0, 229, 255, 0.7);
+
+    box-shadow:
+        0 0 12px
+        rgba(0, 229, 255, 0.1);
+
+}
+
+
+.modal-box textarea {
+
+    min-height: 90px;
+
+    resize: vertical;
+
+}
+
+
+/* ==========================================
+   SUBMIT BUTTON
+========================================== */
+
+.submit-button {
+
+    width: 100%;
+
+    padding: 13px;
+
+    margin-top: 5px;
+
+    border: 1px solid
+        rgba(0, 229, 255, 0.5);
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    background:
+        rgba(0, 229, 255, 0.12);
+
+    color: inherit;
+
+    transition:
+        0.2s ease;
+
+}
+
+
+.submit-button:hover {
+
+    border-color:
+        rgba(0, 229, 255, 0.9);
+
+    box-shadow:
+        0 0 18px
+        rgba(0, 229, 255, 0.15);
+
+    transform:
+        translateY(-1px);
+
+}
+
+
+/* ==========================================
+   SCROLLBAR MODAL
+========================================== */
+
+.modal-box::-webkit-scrollbar {
+
+    width: 5px;
+
+}
+
+
+.modal-box::-webkit-scrollbar-thumb {
+
+    border-radius: 10px;
+
+    background:
+        rgba(0, 229, 255, 0.3);
+
+}
+
+
+/* ==========================================
+   RESPONSIVE — TABLET
+========================================== */
+
+@media (max-width: 800px) {
 
     .debt-overview {
 
@@ -275,9 +611,19 @@
 }
 
 
-@media (
-    max-width: 550px
-) {
+/* ==========================================
+   RESPONSIVE — MOBILE
+========================================== */
+
+@media (max-width: 550px) {
+
+    .debt-page {
+
+        padding:
+            20px 14px 50px;
+
+    }
+
 
     .debt-header {
 
@@ -288,7 +634,8 @@
 
     .debt-overview {
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
     }
 
@@ -296,6 +643,30 @@
     .debt-actions {
 
         flex-direction: column;
+
+    }
+
+
+    .primary-button,
+    .secondary-button {
+
+        width: 100%;
+
+    }
+
+
+    .modal {
+
+        padding: 12px;
+
+    }
+
+
+    .modal-box {
+
+        padding: 20px;
+
+        max-height: 92vh;
 
     }
 
